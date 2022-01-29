@@ -13,7 +13,7 @@ uniform float snowHeight = .7;
 uniform float stoneHeight = 1.4;
 
 varying float vh;
-varying float normal;
+varying float slope;
 
 void vertex()
 {
@@ -25,7 +25,7 @@ void vertex()
 	VERTEX.y += h;
 	
 	vh = VERTEX.y;
-	normal = dot(NORMAL, vec3(0.0, 1.0, 0.0));
+	//slope = acos(dot(normalize(NORMAL), vec3(0, 1, 0)));
 }
 
 void fragment()

@@ -1,9 +1,24 @@
-extends Node
+extends CSGMesh3D
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	new_island()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func new_island() -> void:
+	randomize()
+	
+	var shader := material_override
+	var noise = shader.get_shader_param("noise").noise
+	noise.seed = randi()
+	await get_tree().create_timer(.1).timeout
+	shader.set_shader_param("height", randf_range(0.5, 1.25))
+	await get_tree().create_timer(.1).timeout
+	shader.set_shader_param("snowHeight", randf_range(0.5, 1.5))
+	await get_tree().create_timer(.1).timeout
+	shader.set_shader_param(
+		"stoneHeight",
+		shader.get_shader_param("snowHeight") + (randf_range(0.0, 3) * randf_range(.1, 1.0))
+	)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("next_island"):
+		new_island()

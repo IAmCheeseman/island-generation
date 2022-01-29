@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://cjhaqgybtmgu6"]
+[gd_scene load_steps=15 format=3 uid="uid://cjhaqgybtmgu6"]
 
 [ext_resource type="Shader" path="res://Visuals/Water.gdshader" id="1_cky3m"]
 [ext_resource type="Shader" path="res://WorldGeneration/WorldGen.gdshader" id="2_o6pvm"]
-[ext_resource type="PackedScene" uid="uid://dcmn5erq6qiqf" path="res://Camera.tscn" id="3_t34qi"]
+[ext_resource type="Script" path="res://WorldGeneration/WorldGen.gd" id="3_itiqi"]
+[ext_resource type="PackedScene" path="res://Visuals/Camera.tscn" id="4_ag1nt"]
 
 [sub_resource type="OpenSimplexNoise" id="OpenSimplexNoise_gir1h"]
 
@@ -45,12 +46,12 @@ shader_param/sandColor = Color(0.878431, 0.905882, 0.529412, 1)
 shader_param/height = 1.035
 shader_param/flatness = 0.741
 shader_param/snowHeight = 0.56
-shader_param/stoneHeight = 1.839
+shader_param/stoneHeight = 1.852
 shader_param/noise = SubResource( "NoiseTexture_qsoja" )
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0wf20"]
-subdivide_width = 64
-subdivide_depth = 64
+subdivide_width = 128
+subdivide_depth = 128
 
 [sub_resource type="Environment" id="Environment_fn370"]
 ambient_light_source = 2
@@ -76,13 +77,14 @@ mesh = SubResource( "PlaneMesh_5wimr" )
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.136972, 0)
 material_override = SubResource( "ShaderMaterial_wp7gh" )
 mesh = SubResource( "PlaneMesh_0wf20" )
+script = ExtResource( "3_itiqi" )
+
+[node name="Camera" parent="." instance=ExtResource( "4_ag1nt" )]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.940763, 0.339066, 0, -0.339066, 0.940763, 0, 2, 0)
 shadow_enabled = true
 shadow_color = Color(0, 0.027451, 0.501961, 1)
-
-[node name="Camera" parent="." instance=ExtResource( "3_t34qi" )]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( "Environment_fn370" )
