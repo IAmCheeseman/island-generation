@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcmn5erq6qiqf"]
+
+[ext_resource type="Script" path="res://Camera.gd" id="1_dgdpy"]
+
+[node name="Camera" type="Node3D"]
+script = ExtResource( "1_dgdpy" )
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(-1, -4.26326e-14, 8.74227e-08, 7.15915e-08, 0.573919, 0.818912, -5.01736e-08, 0.818912, -0.573919, 0, 0.68959, -0.605354)
+current = true
+near = 0.001

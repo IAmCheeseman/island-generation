@@ -1,0 +1,88 @@
+[gd_scene load_steps=14 format=3 uid="uid://cjhaqgybtmgu6"]
+
+[ext_resource type="Shader" path="res://Visuals/Water.gdshader" id="1_cky3m"]
+[ext_resource type="Shader" path="res://WorldGeneration/WorldGen.gdshader" id="2_o6pvm"]
+[ext_resource type="PackedScene" uid="uid://dcmn5erq6qiqf" path="res://Camera.tscn" id="3_t34qi"]
+
+[sub_resource type="OpenSimplexNoise" id="OpenSimplexNoise_gir1h"]
+
+[sub_resource type="NoiseTexture" id="NoiseTexture_gbeqj"]
+noise = SubResource( "OpenSimplexNoise_gir1h" )
+
+[sub_resource type="NoiseTexture" id="NoiseTexture_fqsex"]
+width = 1000
+height = 1000
+seamless = true
+as_normal_map = true
+noise = SubResource( "OpenSimplexNoise_gir1h" )
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x3qrc"]
+render_priority = 0
+shader = ExtResource( "1_cky3m" )
+shader_param/color = Color(0, 0.678431, 1, 1)
+shader_param/height = 0.1
+shader_param/waveTime = 0.1
+shader_param/noise = SubResource( "NoiseTexture_gbeqj" )
+shader_param/normalMap = SubResource( "NoiseTexture_fqsex" )
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5wimr"]
+size = Vector2(5.5, 5.5)
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="OpenSimplexNoise" id="OpenSimplexNoise_eeqtp"]
+
+[sub_resource type="NoiseTexture" id="NoiseTexture_qsoja"]
+noise = SubResource( "OpenSimplexNoise_eeqtp" )
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wp7gh"]
+render_priority = 0
+shader = ExtResource( "2_o6pvm" )
+shader_param/grassColor = Color(0.0980392, 0.831373, 0.298039, 1)
+shader_param/stoneColor = Color(0.505882, 0.486275, 0.529412, 1)
+shader_param/snowColor = Color(0.788235, 0.839216, 0.909804, 1)
+shader_param/sandColor = Color(0.878431, 0.905882, 0.529412, 1)
+shader_param/height = 1.035
+shader_param/flatness = 0.741
+shader_param/snowHeight = 0.56
+shader_param/stoneHeight = 1.839
+shader_param/noise = SubResource( "NoiseTexture_qsoja" )
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0wf20"]
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="Environment" id="Environment_fn370"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ssao_enabled = true
+ssao_radius = 1.16
+ssao_intensity = 1.91
+ssao_detail = 1.68
+ssao_horizon = 0.39
+ssao_sharpness = 0.0
+sdfgi_read_sky_light = true
+glow_normalized = true
+glow_bloom = 0.5
+fog_density = 0.0323
+
+[node name="World" type="Node3D"]
+
+[node name="Water" type="CSGMesh3D" parent="."]
+material_override = SubResource( "ShaderMaterial_x3qrc" )
+mesh = SubResource( "PlaneMesh_5wimr" )
+
+[node name="Land" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.136972, 0)
+material_override = SubResource( "ShaderMaterial_wp7gh" )
+mesh = SubResource( "PlaneMesh_0wf20" )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.940763, 0.339066, 0, -0.339066, 0.940763, 0, 2, 0)
+shadow_enabled = true
+shadow_color = Color(0, 0.027451, 0.501961, 1)
+
+[node name="Camera" parent="." instance=ExtResource( "3_t34qi" )]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( "Environment_fn370" )
